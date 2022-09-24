@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from "axios";
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js';
+// import {
+//     Chart as ChartJS,
+//     CategoryScale,
+//     LinearScale,
+//     PointElement,
+//     LineElement,
+//     Title,
+//     Tooltip,
+//     Legend,
+// } from 'chart.js';
 
 // import { Line } from 'react-chartjs-2';
 // import data from "./data";
@@ -60,7 +60,7 @@ import {
 
 const Dashboard = () => {
     const { user, isAuthenticated } = useAuth0();
-    const [latestRpm, setLatestRpm] = useState(0)
+    const [latestRpm, setLatestRpm] = useState(0);
     useEffect(() => {
         axios.get("https://api.thingspeak.com/channels/1848145/feeds.json?results=2")
             .then(response => {
@@ -72,22 +72,28 @@ const Dashboard = () => {
             .catch(err => console.log(err))
     }, [])
     const [inputData, setInputData] = useState({
-        "kp": 0,
-        "ki": 0,
-        "kd": 0,
-        "rpm": 0,
+        'kp': 0,
+        'ki': 0,
+        'kd': 0,
+        'req_rpm': 0
     })
 
     const submitData = () => {
         axios.post("https://api.thingspeak.com/update.json", {
             "api_key": "GV7P12GFV84Y7NYE",
-            "field3": inputData.kp,
-            "field4": inputData.ki,
-            "field5": inputData.kd,
-            "field6": inputData.req_rpm 
+            "field3": inputData['kp']*1000,
+            "field4": inputData['ki']*1000,
+            "field5": inputData['kd']*1000,
+            "field6": inputData['req_rpm'] 
             })
-        .then(response => { console.log(response) })
-        .catch(err => console.log(err))
+        .then(response => { 
+            console.log(response)
+            console.log(inputData) 
+        })
+        .catch(err => { 
+            console.log(err)
+            alert(err)
+        })
     }
 
 
@@ -133,34 +139,34 @@ const Dashboard = () => {
                             padding: "10px",
                             width: "300px",
                             boxSizing: "border-box",
-                            border: "thin solid white",
+                            border: "solid white",
                             margin: "10px",
                             textAlign: "right"
                         }}>{latestRpm}  RPM</div>
-
                     </div>
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", boxSizing: "border-box" }}>
                     {/* <div style={{ width: "100%", margin: "30px", backgroundColor: "#d3d5e6" }}> */}
                         {/* <Line options={options} data={graphData} /> */}
-                    <iframe style={{ width: "100%", height: "500px", border: "1px solid #cccccc;" }} src="https://thingspeak.com/channels/1848145/charts/1?bgcolor=%23ffffff&color=%23d62020&days=1&dynamic=true&results=35&title=PID_Control&type=spline&xaxis=Time&yaxis=RPM">
+                    <iframe style={{ width: "100%", height: "500px", border: "1px solid #cccccc" }} src="https://thingspeak.com/channels/1848145/charts/1?bgcolor=%23ffffff&color=%23d62020&days=1&dynamic=true&results=35&title=PID_Control&type=spline&xaxis=Time&yaxis=RPM">
                     </iframe>
                     {/* </div> */}
-                    <iframe style={{ width: "100%", height: "500px", border: "none", margin: "30px" }} src="https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1&mute=1">
+                    <iframe style={{ width: "100%", height: "500px", border: "none", margin: "30px" }} src="https://3c1f-218-185-248-66.ngrok.io">
                     </iframe>
+                    <iframe style={{ width: "100%", height: "500px", border: "1px solid #cccccc" }} src="https://thingspeak.com/channels/1848145/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
                 </div>
-                <form style={{ display: "flex", justifyContent: "space-around" }}>
+                <div style={{ display: "flex", justifyContent: "space-around" }}>
                     <div>
                         <div>KP</div>
-                        <input type="number" value={inputData['kp']} onChange={(e) => setInputData({ ...inputData, "kp": e.target.value })} />
+                        <input type="number" step="0.0001" value={inputData['kp']} onChange={(e) => setInputData({ ...inputData, "kp": e.target.value })} />
                     </div>
                     <div>
                         <div>KI</div>
-                        <input type="number" value={inputData['ki']} onChange={(e) => setInputData({ ...inputData, "ki": e.target.value })} />
+                        <input type="number" step="0.0001" value={inputData['ki']} onChange={(e) => setInputData({ ...inputData, "ki": e.target.value })} />
                     </div>
                     <div>
                         <div>KD</div>
-                        <input type="number" value={inputData['kd']} onChange={(e) => setInputData({ ...inputData, "kd": e.target.value })} />
+                        <input type="number" step="0.0001" value={inputData['kd']} onChange={(e) => setInputData({ ...inputData, "kd": e.target.value })} />
                     </div>
                     <div>
                         <div>RPM</div>
@@ -169,27 +175,14 @@ const Dashboard = () => {
                     <button onClick={() => submitData()}>
                         Submit
                     </button>
-                </form>
-                <div style={{display: "flex"}}>
-                    <button onClick={() => resetData()}>
+                </div>
+                <div style={{display: "flex" }}>
+                    <button variant="secondary" onClick={() => resetData()}>
                         Reset
                     </button>
                 </div>
             </>
-        )
-        // &&
-        // (// add buttons/input for kp ki kd and rpm vals
-        //     <div>
-        //         <button></button>
-        //         <button></button>
-        //         <button></button>
-        //         <button></button>
-        //     </div>
-        // )
-
-
-
-    )
+        ))
 }
 
 export default Dashboard
