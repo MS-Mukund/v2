@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.ipynb": "bat",
+        "iostream": "cpp"
+    }
+}
