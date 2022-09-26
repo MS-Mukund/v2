@@ -151,7 +151,7 @@ const Dashboard = () => {
                     <iframe style={{ width: "100%", height: "500px", border: "1px solid #cccccc" }} src="https://thingspeak.com/channels/1848145/charts/1?bgcolor=%23ffffff&color=%23d62020&days=1&dynamic=true&results=35&title=PID_Control&type=spline&xaxis=Time&yaxis=RPM">
                     </iframe>
                     {/* </div> */}
-                    <iframe style={{ width: "100%", height: "500px", border: "none", margin: "30px" }} src="https://3c1f-218-185-248-66.ngrok.io">
+                    <iframe style={{ width: "100%", height: "500px", border: "none", margin: "30px" }} src="https://ef87-2409-4070-2114-6655-b0f2-863a-e2e2-a66f.ngrok.io/">
                     </iframe>
                     <iframe style={{ width: "100%", height: "500px", border: "1px solid #cccccc" }} src="https://thingspeak.com/channels/1848145/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
                 </div>
